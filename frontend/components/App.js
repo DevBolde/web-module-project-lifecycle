@@ -12,37 +12,41 @@ export default class App extends React.Component {
     const { value } = evt.target
     this.setState({ ...this.state, todoNameInput: value})
   }
+  //Refactoring Code//
+  resetForm = () => this.setState({ ...this.state, todoNameInput: ''})
+  setAxiosResponseError = err => {
+    this.setState({...this.state, error: err.response.data.message})
+  }
+
+
+  //Methods//
   postNewTodo = () => {
     axios.post(URL, { name: this.state.todoNameInput })
     .then(res => {
       this.fetchAllTodos();
-      this.setState({ ...this.state, todoNameInput: ''})
-    }).catch(err => {
-      this.setState({
-        ...this.state, error: err.response.data.message
-      })
+      this.resetForm();
     })
+    .catch(this.setAxiosResponseError)
   }
+  
   fetchAllTodos = () => {
     axios.get(URL)
     .then(res => {
       this.setState({...this.state, todos: res.data.data})
     })
-    .catch(err => {
-      this.setState({
-        ...this.state, error: err.response.data.message
-      })
-      // debugger
-    })
+    .catch(this.setAxiosResponseError)
   }
+
   onTodoFormSubmit = evt => {
     evt.preventDefault();
     this.postNewTodo();
   }
+
   componentDidMount(){
     // fetch all todos from server
     this.fetchAllTodos();
   }
+
   render() {
     return (
       <div>
