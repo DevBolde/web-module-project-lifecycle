@@ -14,6 +14,7 @@ export default class App extends React.Component {
   }
   //Refactoring Code//
   resetForm = () => this.setState({ ...this.state, todoNameInput: ''})
+
   setAxiosResponseError = err => {
     this.setState({...this.state, error: err.response.data.message})
   }
@@ -23,7 +24,7 @@ export default class App extends React.Component {
   postNewTodo = () => {
     axios.post(URL, { name: this.state.todoNameInput })
     .then(res => {
-      this.fetchAllTodos();
+      this.setState({ ...this.state, quotes: this.state.quotes.concat(res.data.data) })
       this.resetForm();
     })
     .catch(this.setAxiosResponseError)
