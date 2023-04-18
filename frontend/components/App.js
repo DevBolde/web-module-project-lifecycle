@@ -1,7 +1,6 @@
 import React from 'react'
 import axios from 'axios'
 import Form from './Form'
-import Todo from './Todo'
 import TodoList from './TodoList'
 const URL = 'http://localhost:9000/api/todos'
 
